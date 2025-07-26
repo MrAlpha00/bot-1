@@ -17,7 +17,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("📸 Instagram", url=INSTAGRAM_LINK)],
         [InlineKeyboardButton("▶️ YouTube", url=YOUTUBE_LINK)],
         [InlineKeyboardButton("🌐 Website", url=WEBSITE_LINK)],
-        [InlineKeyboardButton("📱 App", text="Coming Soon...", callback_data="app_link")],
+        [InlineKeyboardButton("📱 App", callback_data="app_link")],
         [InlineKeyboardButton("✔️ I Joined✅", callback_data="verify_join")]
     ]
     await update.message.reply_text("🎉 To continue, please join our channel and follow our social links below:", reply_markup=InlineKeyboardMarkup(keyboard))
@@ -36,7 +36,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     InlineKeyboardButton("📩 Feedback", callback_data="feedback"),
                     InlineKeyboardButton("🆘 Help", callback_data="help"),
                     InlineKeyboardButton("🌐 Website", url=WEBSITE_LINK),
-                    InlineKeyboardButton("📱 App", text="Coming Soon...", callback_data="app_link")
+                    InlineKeyboardButton("📱 App", callback_data="app_link")
                 ]
             ]
             await query.message.reply_text(
