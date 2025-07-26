@@ -1,100 +1,95 @@
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, InputMediaPhoto
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
 
-# === Setup ===
-BOT_TOKEN = "7597955527:AAGMPlrrQGQcZmdKyuwsIN1mO0-Ub9olmnY"
-JOIN_CHANNEL = "@aneelacademy"
-ADMIN_ID = 7259807358  # Replace with your Telegram ID
+# LINKS
+CHANNEL_USERNAME = 'aneelacademy'
+INSTAGRAM_LINK = 'https://www.instagram.com/aneelacademy.official/'
+YOUTUBE_LINK = 'https://www.youtube.com/@aneelacademy'
+WEBSITE_LINK = 'https://aneelacademy.com/'
+APP_LINK = 'Coming Soon...'
 
-# === Data for Offers ===
-courses = {
-    "ethical": {
-        "title": "Ethical Hacking V12.5",
-        "price": "₹999 → ₹699",
-        "image": "https://example.com/ethical.jpg",
-        "desc": "🔥 Full Ethical Hacking from scratch to pro\n🧠 Language: Hindi + Tools\n💻 Practical Videos\n📁 Files Included",
-        "buy": "https://livegram.me/yourpaymentlink1"
-    },
-    "carding": {
-        "title": "Carding Master Course",
-        "price": "₹999 → ₹699",
-        "image": "https://example.com/carding.jpg",
-        "desc": "💳 Learn Carding like a pro\n📱 Includes Android & iOS tools\n⚠️ Safety Tips & VPN\n💼 Working Methods",
-        "buy": "https://livegram.me/yourpaymentlink2"
-    },
-    "darkweb": {
-        "title": "Dark Web Full Course",
-        "price": "₹999 → ₹699",
-        "image": "https://example.com/darkweb.jpg",
-        "desc": "🌑 Full Guide to Dark Web\n🌐 Legal and Illegal aspects\n📁 Hidden Tools, Markets\n🎯 Safety and Browsers",
-        "buy": "https://livegram.me/yourpaymentlink3"
-    },
-    "combo": {
-        "title": "🎁 All 3 Courses Bundle",
-        "price": "₹2999 → ₹1444",
-        "image": "https://example.com/combo.jpg",
-        "desc": "🎯 Ethical Hacking + Carding + Dark Web\n🔥 One-time offer\n📁 All files included\n📹 Lifetime Access",
-        "buy": "https://livegram.me/yourpaymentlink4"
-    }
-}
+ADMIN_ID = 7259807358  # Replace with your Telegram user ID
 
-
-# === Start Command ===
+# START COMMAND
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
-        [InlineKeyboardButton("✅ Join Main Channel", url=f"https://t.me/{JOIN_CHANNEL[1:]}")],
-        [InlineKeyboardButton("🎂 Birthday Special Offers", callback_data="show_courses")]
+        [InlineKeyboardButton("✅ Join Telegram Channel", url=f"https://t.me/{CHANNEL_USERNAME}")],
+        [InlineKeyboardButton("📸 Instagram", url=INSTAGRAM_LINK)],
+        [InlineKeyboardButton("▶️ YouTube", url=YOUTUBE_LINK)],
+        [InlineKeyboardButton("🌐 Website", url=WEBSITE_LINK)],
+        [InlineKeyboardButton("📱 App", text="Coming Soon...", callback_data="app_link")],
+        [InlineKeyboardButton("✔️ I Joined✅", callback_data="verify_join")]
     ]
-    await update.message.reply_text(
-        "👋 Welcome! Please join our official channel and then explore Birthday Special Offers 🎁",
-        reply_markup=InlineKeyboardMarkup(keyboard)
-    )
+    await update.message.reply_text("🎉 To continue, please join our channel and follow our social links below:", reply_markup=InlineKeyboardMarkup(keyboard))
 
-# === Show Course Buttons ===
-async def show_courses(update: Update, context: ContextTypes.DEFAULT_TYPE):
+# VERIFY JOIN
+async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-    keyboard = [
-        [
-            InlineKeyboardButton("💻 Ethical Hacking ₹699", callback_data="ethical"),
-            InlineKeyboardButton("💳 Carding Course ₹699", callback_data="carding")
-        ],
-        [
-            InlineKeyboardButton("🌐 Dark Web Course ₹699", callback_data="darkweb"),
-            InlineKeyboardButton("🎁 All 3 for ₹1444", callback_data="combo")
+
+    if query.data == "verify_join":
+        member = await context.bot.get_chat_member(chat_id=f"@{CHANNEL_USERNAME}", user_id=query.from_user.id)
+        if member.status in ["member", "administrator", "creator"]:
+            keyboard = [
+                [InlineKeyboardButton("🎁 Birthday Special Offer", callback_data="show_offer")],
+                [
+                    InlineKeyboardButton("📩 Feedback", callback_data="feedback"),
+                    InlineKeyboardButton("🆘 Help", callback_data="help"),
+                    InlineKeyboardButton("🌐 Website", url=WEBSITE_LINK),
+                    InlineKeyboardButton("📱 App", text="Coming Soon...", callback_data="app_link")
+                ]
+            ]
+            await query.message.reply_text(
+                "🎉 Welcome to Aneel Academy!\n\nEnjoy our birthday special offer below.",
+                reply_markup=InlineKeyboardMarkup(keyboard)
+            )
+        else:
+            await query.message.reply_text("❌ You haven't joined the channel yet! Please join and click 'I Joined' again.")
+
+    elif query.data == "show_offer":
+        keyboard = [
+            [InlineKeyboardButton("💻 Ethical Hacking - ₹699", callback_data="course_eh")],
+            [InlineKeyboardButton("💳 Carding Course - ₹699", callback_data="course_cc")],
+            [InlineKeyboardButton("🌐 Dark Web Full - ₹699", callback_data="course_dw")],
+            [InlineKeyboardButton("🔥 All 3 Combo ₹1444", callback_data="course_all")]
         ]
-    ]
-    await query.edit_message_text("🎂 Choose your Birthday Offer:", reply_markup=InlineKeyboardMarkup(keyboard))
+        await query.message.reply_text("🎁 Birthday Special Courses:\nChoose a course below 👇", reply_markup=InlineKeyboardMarkup(keyboard))
 
-# === Show Course Details + Buy Button ===
-async def course_detail(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-    key = query.data
-    course = courses[key]
-    keyboard = [
-        [
-            InlineKeyboardButton("✅ Buy Now", url=course["buy"]),
-            InlineKeyboardButton("🔙 Back", callback_data="show_courses")
+    elif query.data.startswith("course_"):
+        course_map = {
+            "course_eh": ("Ethical Hacking V12.5", "https://res.cloudinary.com/dvbgfwsxc/image/upload/v1733117802/Black_forever_PC_Desktop_Wallpaper_Background_1_jrvjnz.jpg"),
+            "course_cc": ("Carding Full Course", "https://res.cloudinary.com/dvbgfwsxc/image/upload/v1733117802/Black_forever_PC_Desktop_Wallpaper_Background_1_jrvjnz.jpg"),
+            "course_dw": ("Dark Web Full Course", "https://res.cloudinary.com/dvbgfwsxc/image/upload/v1733117802/Black_forever_PC_Desktop_Wallpaper_Background_1_jrvjnz.jpg"),
+            "course_all": ("All 3 Combo Course", "https://res.cloudinary.com/dvbgfwsxc/image/upload/v1733117802/Black_forever_PC_Desktop_Wallpaper_Background_1_jrvjnz.jpg")
+        }
+        title, image_url = course_map[query.data]
+        text = f"📚 *{title}*\n\nUsual Price: ₹999\n🎉 Offer Price: ₹699 (or ₹1444 for all)\n\n✅ Limited Time Offer"
+        buttons = [
+            [
+                InlineKeyboardButton("🛒 Buy Now", callback_data="buy_now"),
+                InlineKeyboardButton("🔙 Back", callback_data="show_offer")
+            ]
         ]
-    ]
-    await query.edit_message_media(
-        media=InputMediaPhoto(media=course["image"], caption=f"🎓 {course['title']}\n💰 {course['price']}\n\n{course['desc']}"),
-        reply_markup=InlineKeyboardMarkup(keyboard)
-    )
+        await query.message.reply_photo(photo=image_url, caption=text, reply_markup=InlineKeyboardMarkup(buttons), parse_mode="Markdown")
 
-# === Feedback Handler (Optional) ===
-async def feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = update.message.text
-    await context.bot.send_message(chat_id=ADMIN_ID, text=f"📩 Feedback received:\n{text}")
-    await update.message.reply_text("✅ Thank you for your feedback!")
+    elif query.data == "buy_now":
+        await query.message.reply_text("💳 Please complete your payment via our LiveGram bot. We will verify and add you to the private course channel.\n\n👉 @your_livegram_bot")
 
-# === Main ===
-app = ApplicationBuilder().token(BOT_TOKEN).build()
+    elif query.data == "feedback":
+        await query.message.reply_text("📝 Please share your feedback here. We value it!")
 
-app.add_handler(CommandHandler("start", start))
-app.add_handler(CallbackQueryHandler(show_courses, pattern="^show_courses$"))
-app.add_handler(CallbackQueryHandler(course_detail, pattern="^(ethical|carding|darkweb|combo)$"))
-app.add_handler(CommandHandler("feedback", feedback))
+    elif query.data == "help":
+        await query.message.reply_text("💬 Need help? Contact admin here: @aneeladmin")
 
-app.run_polling()
+    elif query.data == "app_link":
+        await query.message.reply_text("📱 Our App is launching soon. Stay tuned!")
+
+# MAIN
+def main():
+    app = ApplicationBuilder().token("7597955527:AAGMPlrrQGQcZmdKyuwsIN1mO0-Ub9olmnY").build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CallbackQueryHandler(button_handler))
+    app.run_polling()
+
+if __name__ == '__main__':
+    main()
