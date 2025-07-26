@@ -1,0 +1,100 @@
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, InputMediaPhoto
+from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
+
+# === Setup ===
+BOT_TOKEN = "YOUR_BOT_TOKEN"
+JOIN_CHANNEL = "@YourJoinChannel"
+ADMIN_ID = 123456789  # Replace with your Telegram ID
+
+# === Data for Offers ===
+courses = {
+    "ethical": {
+        "title": "Ethical Hacking V12.5",
+        "price": "₹999 → ₹699",
+        "image": "https://example.com/ethical.jpg",
+        "desc": "🔥 Full Ethical Hacking from scratch to pro\n🧠 Language: Hindi + Tools\n💻 Practical Videos\n📁 Files Included",
+        "buy": "https://livegram.me/yourpaymentlink1"
+    },
+    "carding": {
+        "title": "Carding Master Course",
+        "price": "₹999 → ₹699",
+        "image": "https://example.com/carding.jpg",
+        "desc": "💳 Learn Carding like a pro\n📱 Includes Android & iOS tools\n⚠️ Safety Tips & VPN\n💼 Working Methods",
+        "buy": "https://livegram.me/yourpaymentlink2"
+    },
+    "darkweb": {
+        "title": "Dark Web Full Course",
+        "price": "₹999 → ₹699",
+        "image": "https://example.com/darkweb.jpg",
+        "desc": "🌑 Full Guide to Dark Web\n🌐 Legal and Illegal aspects\n📁 Hidden Tools, Markets\n🎯 Safety and Browsers",
+        "buy": "https://livegram.me/yourpaymentlink3"
+    },
+    "combo": {
+        "title": "🎁 All 3 Courses Bundle",
+        "price": "₹2999 → ₹1444",
+        "image": "https://example.com/combo.jpg",
+        "desc": "🎯 Ethical Hacking + Carding + Dark Web\n🔥 One-time offer\n📁 All files included\n📹 Lifetime Access",
+        "buy": "https://livegram.me/yourpaymentlink4"
+    }
+}
+
+
+# === Start Command ===
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [
+        [InlineKeyboardButton("✅ Join Main Channel", url=f"https://t.me/{JOIN_CHANNEL[1:]}")],
+        [InlineKeyboardButton("🎂 Birthday Special Offers", callback_data="show_courses")]
+    ]
+    await update.message.reply_text(
+        "👋 Welcome! Please join our official channel and then explore Birthday Special Offers 🎁",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
+# === Show Course Buttons ===
+async def show_courses(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    keyboard = [
+        [
+            InlineKeyboardButton("💻 Ethical Hacking ₹699", callback_data="ethical"),
+            InlineKeyboardButton("💳 Carding Course ₹699", callback_data="carding")
+        ],
+        [
+            InlineKeyboardButton("🌐 Dark Web Course ₹699", callback_data="darkweb"),
+            InlineKeyboardButton("🎁 All 3 for ₹1444", callback_data="combo")
+        ]
+    ]
+    await query.edit_message_text("🎂 Choose your Birthday Offer:", reply_markup=InlineKeyboardMarkup(keyboard))
+
+# === Show Course Details + Buy Button ===
+async def course_detail(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    key = query.data
+    course = courses[key]
+    keyboard = [
+        [
+            InlineKeyboardButton("✅ Buy Now", url=course["buy"]),
+            InlineKeyboardButton("🔙 Back", callback_data="show_courses")
+        ]
+    ]
+    await query.edit_message_media(
+        media=InputMediaPhoto(media=course["image"], caption=f"🎓 {course['title']}\n💰 {course['price']}\n\n{course['desc']}"),
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
+# === Feedback Handler (Optional) ===
+async def feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text
+    await context.bot.send_message(chat_id=ADMIN_ID, text=f"📩 Feedback received:\n{text}")
+    await update.message.reply_text("✅ Thank you for your feedback!")
+
+# === Main ===
+app = ApplicationBuilder().token(BOT_TOKEN).build()
+
+app.add_handler(CommandHandler("start", start))
+app.add_handler(CallbackQueryHandler(show_courses, pattern="^show_courses$"))
+app.add_handler(CallbackQueryHandler(course_detail, pattern="^(ethical|carding|darkweb|combo)$"))
+app.add_handler(CommandHandler("feedback", feedback))
+
+app.run_polling()
