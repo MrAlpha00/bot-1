@@ -103,11 +103,12 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text("📝 Please share your feedback here. We value it!")
 
     elif query.data == "help":
-        await query.message.reply_text("💬 Need help? Contact admin here: @Ethical_Hacking_telugu\n "If you have any questions, doubts, or need support regarding courses, payments, or anything else, feel free to reach out.\n\n"
+        await query.message.reply_text("💬 Need help? Contact admin here: @Ethical_Hacking_telugu\n\n"
+    "If you have any questions, doubts, or need support regarding courses, payments, or anything else, feel free to reach out.\n\n"
     "💬 Contact us on WhatsApp: wa.me/+919441735630\n"
     "📧 Email: moshareddy14@gmail.com\n"
     "🌐 Visit: www.aneelacademy.com\n\n"
-    "⏱ Support Hours: 10 AM – 7 PM (Mon – Sun)",")
+    "⏱ Support Hours: 10 AM – 7 PM (Mon – Sun)")
 
     elif query.data == "app_link":
         await query.message.reply_text("📱 Our App is launching soon. Stay tuned!")
