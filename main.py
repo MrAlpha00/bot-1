@@ -14,10 +14,13 @@ ADMIN_ID = 7259807358  # Replace with your Telegram user ID
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton("✅ Join Telegram Channel", url=f"https://t.me/{CHANNEL_USERNAME}")],
-        [InlineKeyboardButton("📸 Instagram", url=INSTAGRAM_LINK)],
-        [InlineKeyboardButton("▶️ YouTube", url=YOUTUBE_LINK)],
-        [InlineKeyboardButton("🌐 Website", url=WEBSITE_LINK)],
-        [InlineKeyboardButton("📱 App", callback_data="app_link")],
+        [   
+            InlineKeyboardButton("📸 Instagram", url=INSTAGRAM_LINK),
+            InlineKeyboardButton("▶️ YouTube", url=YOUTUBE_LINK)
+        ],
+        [
+            InlineKeyboardButton("🌐 Website", url=WEBSITE_LINK),
+            InlineKeyboardButton("📱 App", callback_data="app_link")],
         [InlineKeyboardButton("✔️ I Joined✅", callback_data="verify_join")]
     ]
     await update.message.reply_text("🎉 To continue, please join our channel and follow our social links below:", reply_markup=InlineKeyboardMarkup(keyboard))
@@ -38,8 +41,8 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 [InlineKeyboardButton("🎁 Birthday Special Offer", callback_data="show_offer")],
                 [
                     InlineKeyboardButton("📩 Feedback", callback_data="feedback"),
-                    InlineKeyboardButton("🆘 Help", callback_data="help"),
-                    InlineKeyboardButton("🌐 Website", url=WEBSITE_LINK),
+                    InlineKeyboardButton("🆘 Help", callback_data="help")],
+                [    InlineKeyboardButton("🌐 Website", url=WEBSITE_LINK),
                     InlineKeyboardButton("📱 App", callback_data="app_link")
                 ]
             ]
@@ -100,7 +103,11 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text("📝 Please share your feedback here. We value it!")
 
     elif query.data == "help":
-        await query.message.reply_text("💬 Need help? Contact admin here: @aneeladmin")
+        await query.message.reply_text("💬 Need help? Contact admin here: @Ethical_Hacking_telugu\n "If you have any questions, doubts, or need support regarding courses, payments, or anything else, feel free to reach out.\n\n"
+    "💬 Contact us on WhatsApp: wa.me/+919441735630\n"
+    "📧 Email: moshareddy14@gmail.com\n"
+    "🌐 Visit: www.aneelacademy.com\n\n"
+    "⏱ Support Hours: 10 AM – 7 PM (Mon – Sun)",")
 
     elif query.data == "app_link":
         await query.message.reply_text("📱 Our App is launching soon. Stay tuned!")
