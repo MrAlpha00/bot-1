@@ -91,7 +91,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif query.data == "buy_now":
         await query.message.reply_photo(
             photo="https://res.cloudinary.com/dvbgfwsxc/image/upload/v1753605975/WhatsApp_Image_2025-07-27_at_14.15.49_8c2ac440_lr6xbq.jpg",  # 🔁 Replace with your actual image URL
-            caption="💳 *Please complete your payment To our above QR Via Upi , Phonepe, Google pay, Paytm etc...*\n\nOnce done,send the Screenshot or UTR number to below bot Id ,\n\n Automatially we will verify and you Get private course channel Link.\n\n👉 [@your_livegram_bot](https://t.me/PaymentGateway_Aneel_Robot)",
+            caption="💳 *Please complete your payment To our above QR Via Upi , Phonepe, Google pay, Paytm etc...*\n\nOnce done,send the Screenshot or UTR number to below bot Id ,\n\n Automatially we will verify and you Get private course channel Link.\n\n👉 [@SEND_HERE](https://t.me/PaymentGateway_Aneel_Robot) \n To restart the conversation Tap /start ",
             parse_mode="Markdown"
         )
 
