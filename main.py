@@ -25,7 +25,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # VERIFY JOIN
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
+    try:
+        await query.answer()
+    except Exception:
+        # Handle timeout or invalid query errors silently
+        pass
 
     if query.data == "verify_join":
         member = await context.bot.get_chat_member(chat_id=f"@{CHANNEL_USERNAME}", user_id=query.from_user.id)
