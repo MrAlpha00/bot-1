@@ -40,8 +40,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 ]
             ]
             await query.message.reply_text(
-                "🎓 Welcome to Aneel Academy Bot!\n🚀 Learn. Grow. Succeed. \n\n🎉You're now connected with Aneel Academy – your trusted companion for career-building courses and digital skills.\n\n🎁 Tap below to unlock your 🎂 *Birthday Special Offer* (for a limited time)!\n\nNeed help or want to explore more?
-👇 Check out the quick access buttons below.",
+                "🎓 Welcome to Aneel Academy Bot!\n🚀 Learn. Grow. Succeed. \n\n🎉You're now connected with Aneel Academy – your trusted companion for career-building courses and digital skills.\n\n🎁 Tap below to unlock your 🎂 *Birthday Special Offer* (for a limited time)!\n\nNeed help or want to explore more?\n👇 Check out the quick access buttons below.",
                 reply_markup=InlineKeyboardMarkup(keyboard)
             )
         else:
