@@ -40,7 +40,8 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 ]
             ]
             await query.message.reply_text(
-                "🎉 Welcome to Aneel Academy!\n\nEnjoy our birthday special offer below.",
+                "🎓 Welcome to Aneel Academy Bot!\n🚀 Learn. Grow. Succeed. \n\n🎉You're now connected with Aneel Academy – your trusted companion for career-building courses and digital skills.\n\n🎁 Tap below to unlock your 🎂 *Birthday Special Offer* (for a limited time)!\n\nNeed help or want to explore more?
+👇 Check out the quick access buttons below.",
                 reply_markup=InlineKeyboardMarkup(keyboard)
             )
         else:
@@ -48,9 +49,9 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif query.data == "show_offer":
         keyboard = [
-            [InlineKeyboardButton("💻 Ethical Hacking - ₹699", callback_data="course_eh")],
-            [InlineKeyboardButton("💳 Carding Course - ₹699", callback_data="course_cc")],
-            [InlineKeyboardButton("🌐 Dark Web Full - ₹699", callback_data="course_dw")],
+            [InlineKeyboardButton("💻 Ethical Hacking - ₹9̶9̶9̶  ₹699", callback_data="course_eh")],
+            [InlineKeyboardButton("💳 Carding Course -₹9̶9̶9̶  ₹699", callback_data="course_cc")],
+            [InlineKeyboardButton("🌐 Dark Web Full - ₹9̶9̶9̶  ₹699", callback_data="course_dw")],
             [InlineKeyboardButton("🔥 All 3 Combo ₹1444", callback_data="course_all")]
         ]
         await query.message.reply_text("🎁 Birthday Special Courses:\nChoose a course below 👇", reply_markup=InlineKeyboardMarkup(keyboard))
