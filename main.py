@@ -39,9 +39,12 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     InlineKeyboardButton("📱 App", callback_data="app_link")
                 ]
             ]
-            await query.message.reply_text(
-                "🎓 Welcome to Aneel Academy Bot!\n🚀 Learn. Grow. Succeed. \n\n🎉You're now connected with Aneel Academy – your trusted companion for career-building courses and digital skills.\n\n🎁 Tap below to unlock your 🎂 *Birthday Special Offer* (for a limited time)!\n\nNeed help or want to explore more?\n👇 Check out the quick access buttons below.",
+            await query.message.reply_photo(
+                photo="https://your-image-link.com/aneel_welcome.jpg",  # Replace this with your actual hosted image URL
+                caption="🎓 Welcome to Aneel Academy Bot!\n🚀 Learn. Grow. Succeed. \n\n🎉You're now connected with Aneel Academy – your trusted companion for career-building courses and digital skills.\n\n🎁 Tap below to unlock your 🎂 *Birthday Special Offer* (for a limited time)!\n\nNeed help or want to explore more?\n👇 Check out the quick access buttons below.",
                 reply_markup=InlineKeyboardMarkup(keyboard)
+            )
+
             )
         else:
             await query.message.reply_text("❌ You haven't joined the channel yet! Please join and click 'I Joined' again.")
@@ -55,7 +58,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ]
         # 📸 Send birthday offer image
         await query.message.reply_photo(
-            photo="https://your-image-link.com/birthday-offer.jpg",  # 🔁 Replace with your birthday course image link
+            photo="https://res.cloudinary.com/dvbgfwsxc/image/upload/v1753603372/Bday_-_2_2_oykuhh.png",  # 🔁 Replace with your birthday course image link
             caption="🎁 Birthday Special Courses!\nEnjoy exclusive discounts today only 🎂"
         )
 
