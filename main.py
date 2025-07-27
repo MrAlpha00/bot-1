@@ -64,7 +64,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "👇 Choose a course to explore birthday deals:",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
-(keyboard))
 
     elif query.data.startswith("course_"):
         course_map = {
