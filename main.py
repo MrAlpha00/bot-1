@@ -53,10 +53,18 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("🌐 Dark Web Full - ₹9̶9̶9̶  ₹699", callback_data="course_dw")],
             [InlineKeyboardButton("🔥 All 3 Combo ₹1444", callback_data="course_all")]
         ]
-        await query.message.reply_text("🎂 *Happy Birthday from Aneel Academy!* 🎉\n\n"
-    "🎁 Birthday Special Courses:\n"
-    "As a token of our love, enjoy access to premium learning at a special birthday rate! 🥳🎓\n\n"
-    "👇 Choose a course below to begin your journey:", reply_markup=InlineKeyboardMarkup(keyboard))
+        # 📸 Send birthday offer image
+        await query.message.reply_photo(
+            photo="https://your-image-link.com/birthday-offer.jpg",  # 🔁 Replace with your birthday course image link
+            caption="🎁 Birthday Special Courses!\nEnjoy exclusive discounts today only 🎂"
+        )
+
+        # 🎯 Show buttons for birthday courses
+        await query.message.reply_text(
+            "👇 Choose a course to explore birthday deals:",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+(keyboard))
 
     elif query.data.startswith("course_"):
         course_map = {
